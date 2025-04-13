@@ -1,0 +1,12 @@
+.cart-container {
+  text-align: center;
+  padding: 50px;
+}
+
+.cart-container h1 {
+  font-size: 36px;
+}
+
+.cart-container p {
+  font-size: 18px;
+}

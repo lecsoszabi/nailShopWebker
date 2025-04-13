@@ -1,0 +1,22 @@
+.home-container {
+  text-align: center;
+  padding: 50px;
+}
+
+.home-container h1 {
+  font-size: 36px;
+  color: #ff69b4;
+}
+
+.home-container p {
+  font-size: 18px;
+}
+
+.home-container .shop-now {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ff69b4;
+  color: white;
+  text-decoration: none;
+}

@@ -1,0 +1,12 @@
+.profile-container {
+  text-align: center;
+  padding: 50px;
+}
+
+.profile-container h1 {
+  font-size: 36px;
+}
+
+.profile-container p {
+  font-size: 18px;
+}

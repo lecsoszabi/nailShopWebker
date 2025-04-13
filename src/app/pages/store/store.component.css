@@ -1,0 +1,12 @@
+.store-container {
+  text-align: center;
+  padding: 50px;
+}
+
+.store-container h1 {
+  font-size: 36px;
+}
+
+.store-container p {
+  font-size: 18px;
+}
