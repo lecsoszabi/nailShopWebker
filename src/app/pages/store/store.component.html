@@ -1,4 +1,19 @@
 <div class="store-container">
   <h1>Our Products</h1>
   <p>Browse our wide range of nail care products!</p>
+  <div class = "itemsContainer">
+    @for (nail of nails; track nails.indexOf(nail)){
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          {{nail.color}}
+        </mat-card-header>
+        <mat-card-subtitle>
+          {{nail.length}}
+        </mat-card-subtitle>
+        <mat-card-content>{{getDescription(nail.id) ? getDescription(nail.id)?.text : 'missingdata'}}</mat-card-content>
+      </mat-card>
+
+    }
+
+  </div>
 </div>
