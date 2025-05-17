@@ -4,7 +4,7 @@ export const environment = {
   production: false,
   // A 'firebase' kulcsnak itt kell lennie, és tartalmaznia kell a konfigurációs adatokat
   firebase: {
-    apiKey: "AIzaSyBwRnI3otyDeT5Nbl-EJt1gqUqIqnwV5C0", // Ezek a te adataid, rendben vannak
+    apiKey: "..........", // Ezek a te adataid, rendben vannak
     authDomain: "nailshopangular.firebaseapp.com",
     projectId: "nailshopangular",
     storageBucket: "nailshopangular.firebasestorage.app", // Itt a ".firebasestorage.app" helyett ".appspot.com" szokott lenni, de ha a Firebase ezt adta, akkor ez a jó. Ellenőrizd a Firebase Console-ban.
