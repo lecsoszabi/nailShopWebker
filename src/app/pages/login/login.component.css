@@ -1,0 +1,48 @@
+/* Az .auth-container, .auth-title, .auth-form, .submit-button, .auth-switch-link-paragraph, .auth-switch-link
+   osztályok stílusait a src/styles.css-ben vagy egy közös auth.css-ben lehetne definiálni,
+   hogy a RegisterComponent is használhassa. Most ide másolom őket, de jobb lenne közösíteni.
+*/
+
+.auth-container {
+  max-width: 450px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e0e0e0;
+}
+
+.auth-title { /* H2 stílus a src/styles.css-ből öröklődik, itt felülírható ha kell */
+  margin-bottom: 25px;
+}
+
+/* .form-group, .form-label, .form-control, .input-error, .error-message
+   stílusai a src/styles.css-ből öröklődnek. */
+
+.api-error-message {
+  margin-bottom: 15px;
+  padding: 12px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.submit-button { /* A .button-primary stílust használja a src/styles.css-ből */
+  width: 100%;
+  margin-top: 10px; /* Kis extra tér a hibaüzenet és a gomb között */
+}
+
+.auth-switch-link-paragraph {
+  margin-top: 25px;
+  text-align: center;
+  font-size: 0.9em;
+  color: #6c757d;
+}
+
+.auth-switch-link { /* Az 'a' stílust használja a src/styles.css-ből, itt csak a font-weight-et adjuk hozzá */
+  font-weight: 600;
+}

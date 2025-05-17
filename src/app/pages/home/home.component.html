@@ -1,5 +1,7 @@
 <div class="home-container">
-  <h1>Welcome to Nail Shop!</h1>
-  <p>Your one-stop shop for all your nail care needs.</p>
-  <a routerLink="/store" class="shop-now">Shop Now</a>
+  <h1>Üdv a Nail Shop-ban!</h1>
+  <p>Itt mindent megtalálsz a körömépítéshez.</p>
+
+  <a *ngIf="currentUser$ | async as user" routerLink="/store" class="shop-now">Fedezd fel a termékeinket!</a>
+  <a *ngIf="(currentUser$ | async) === null; " routerLink="/login" class="shop-now">Jelentkezz be!</a>
 </div>

@@ -1,4 +1,38 @@
-<div class="cart-container">
-  <h1>Your Cart</h1>
-  <p>Review the items in your cart before checkout.</p>
+<div class="page-container">
+  <h2 class="page-title">Kosarad tartalma</h2>
+
+  <div *ngIf="cartItems$ | async as items; else loadingCart">
+    <div *ngIf="items.length > 0; else emptyCart" class="cart-items-container">
+      <div *ngFor="let item of items" class="cart-item">
+        <img [src]="item.imageUrl || 'assets/images/placeholder-nail.png'" alt="{{ item.name }}" class="cart-item-image">
+        <div class="cart-item-details">
+          <h3 class="cart-item-name">{{ item.name }}</h3>
+          <p class="cart-item-price">{{ item.price | number:'1.0-0' }} Ft / db</p>
+        </div>
+        <div class="cart-item-quantity">
+          <button (click)="updateQuantity(item.productId, item.quantity - 1)" class="quantity-button" [disabled]="item.quantity <= 1">-</button>
+          <span>{{ item.quantity }}</span>
+          <button (click)="updateQuantity(item.productId, item.quantity + 1)" class="quantity-button">+</button>
+        </div>
+        <p class="cart-item-subtotal">{{ (item.price * item.quantity) | number:'1.0-0' }} Ft</p>
+        <button (click)="removeFromCart(item.productId)" class="remove-item-button">
+          <span aria-hidden="true">&times;</span> <!-- X ikon -->
+        </button>
+      </div>
+
+      <div class="cart-summary">
+        <h3 class="summary-title">Összesítés</h3>
+        <p class="summary-total">Végösszeg: <strong>{{ calculateTotal(items) | number:'1.0-0' }} Ft</strong></p>
+        <button (click)="clearCart()" class="clear-cart-button">Kosár ürítése</button>
+        <button (click)="proceedToCheckout()" class="checkout-button button-primary">Tovább a fizetéshez</button>
+      </div>
+
+    </div>
+    <ng-template #emptyCart>
+      <p class="info-message">A kosarad jelenleg üres. <a routerLink="/store">Vásárolj valamit!</a></p>
+    </ng-template>
+  </div>
+  <ng-template #loadingCart>
+    <p class="info-message">Kosár betöltése...</p>
+  </ng-template>
 </div>

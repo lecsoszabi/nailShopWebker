@@ -1,19 +1,25 @@
-<div class="store-container">
-  <h1>Our Products</h1>
-  <p>Browse our wide range of nail care products!</p>
-  <div class = "itemsContainer">
-    @for (nail of nails; track nails.indexOf(nail)){
-      <mat-card appearance="outlined">
-        <mat-card-header>
-          {{nail.color}}
-        </mat-card-header>
-        <mat-card-subtitle>
-          {{nail.length}}
-        </mat-card-subtitle>
-        <mat-card-content>{{getDescription(nail.id) ? getDescription(nail.id)?.text : 'missingdata'}}</mat-card-content>
-      </mat-card>
+<div class="page-container"> <!-- Általános konténer az oldalnak -->
+  <h2 class="page-title">Termékeink</h2> <!-- Általános címsor stílus -->
 
-    }
-
+  <div *ngIf="products$ | async as products; else loadingOrError">
+    <div *ngIf="products.length > 0; else noProducts" class="product-grid">
+      <div *ngFor="let product of products" class="product-card">
+        <img [src]="product.imageUrl || 'assets/images/placeholder-nail.png'" alt="{{ product.name }}" class="product-image">
+        <div class="product-info">
+          <h3 class="product-name">{{ product.name }}</h3>
+          <p class="product-price">{{ product.price | number:'1.0-0' }} Ft</p> <!-- Egyszerű árformázás, pipe-pal jobb lenne -->
+          <button (click)="addToCart(product)" class="add-to-cart-button button-primary">
+            Kosárba
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-template #noProducts>
+      <p class="info-message">Jelenleg nincsenek elérhető termékek.</p>
+    </ng-template>
   </div>
+  <ng-template #loadingOrError>
+    <!-- Itt lehetne egy loading spinner vagy hibaüzenet, ha az Observable hibát dob vagy még tölt -->
+    <p class="info-message">Termékek betöltése...</p>
+  </ng-template>
 </div>

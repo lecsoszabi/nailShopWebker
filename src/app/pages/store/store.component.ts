@@ -1,18 +1,16 @@
 import { Component } from '@angular/core';
-import descriptions from '../../database/descriptions';
-import nails from '../../database/nails';
-import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle} from '@angular/material/card';
+import { CommonModule } from '@angular/common'; // Ha használsz *ngIf, *ngFor stb.
 
 @Component({
   selector: 'app-store',
-  imports: [MatCard,MatCardContent,MatCardHeader,MatCardSubtitle],
-  templateUrl: './store.component.html',
-  styleUrl: './store.component.css'
+  standalone: true,
+  imports: [CommonModule], // Szükséges importok
+  template: `
+    <h2>Bolt</h2>
+    <p>Itt lesznek a termékek listázva.</p>
+  `,
+  // styleUrls: ['./store.component.css'] // Ha van külön CSS
 })
 export class StoreComponent {
-  nails = nails
-  descriptions = descriptions
-  getDescription(id: number) {
-    return this.descriptions.find(description => description.nailid === id);
-  }
+  // Itt jön majd a terméklistázás logikája
 }

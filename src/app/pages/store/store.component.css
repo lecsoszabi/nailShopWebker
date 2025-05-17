@@ -1,12 +1,74 @@
-.store-container {
+.page-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.page-title { /* H2 stílus a src/styles.css-ből öröklődik, itt felülírható ha kell */
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e91e63;
+  padding-bottom: 10px;
+  display: inline-block; /* Hogy a border-bottom csak a szöveg alatt legyen */
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Reszponzív rács */
+  gap: 25px;
+}
+
+.product-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Hogy a kép ne lógjon ki a kerekített sarkoknál */
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.product-image {
+  width: 100%;
+  height: 200px; /* Fix magasság, vagy aspect-ratio használata */
+  object-fit: cover; /* Hogy a kép kitöltse a helyét torzítás nélkül */
+}
+
+.product-info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Hogy a tartalom kitöltse a rendelkezésre álló helyet */
+}
+
+.product-name {
+  font-size: 1.25em;
+  font-weight: 600;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+  min-height: 2.5em; /* Hogy a kártyák egyforma magasak legyenek, ha a név több soros */
+}
+
+.product-price {
+  font-size: 1.1em;
+  color: #e91e63;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.add-to-cart-button { /* A .button-primary stílust használja a src/styles.css-ből */
+  margin-top: auto; /* A gombot a kártya aljára tolja */
+  width: 100%;
+}
+
+.info-message {
   text-align: center;
-  padding: 50px;
-}
-
-.store-container h1 {
-  font-size: 36px;
-}
-
-.store-container p {
-  font-size: 18px;
+  font-size: 1.1em;
+  color: #666;
+  margin-top: 40px;
 }

@@ -1,32 +1,85 @@
-/* Navbar alapstílusok */
-.navbar {
+.navbar-component {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: #ff69b4; /* Rózsaszín háttér */
-  padding: 10px 20px;
+  justify-content: space-between;
+  background-color: #ffffff; /* Fehér háttér, mint a formoknál */
+  padding: 15px 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Árnyék, mint a formoknál */
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky; /* Opcionális: a navbar fixen maradjon fent görgetéskor */
+  top: 0;
+  z-index: 1000; /* Hogy más elemek fölött legyen */
+
 }
 
-.navbar .logo {
-  font-size: 24px;
+.navbar-logo {
   font-weight: bold;
-  color: white;
-}
-
-.navbar .nav-links a {
+  font-size: 1.8em;
+  color: #c2185b; /* Pink logó szín */
   text-decoration: none;
-  color: white;
-  padding: 10px 15px;
-  font-size: 18px;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.navbar .nav-links a:hover {
-  background-color: white;
-  color: #ff69b4; /* Rózsaszín szöveg hover állapotban */
-  border-radius: 5px;
+.navbar-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.navbar .nav-links .active {
+.navbar-links li {
+  display: inline-block;
+}
+
+.navbar-links a { /* Globális 'a' stílust használ, itt csak a specifikusakat adjuk meg */
+  padding: 10px 0px; /* Csak vertikális padding, hogy a hover jobban nézzen ki */
+  font-weight: 500;
+  position: relative; /* Az aláhúzáshoz */
+}
+
+.navbar-links a::after { /* Animált aláhúzás hoverre */
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: #c2185b;
+  transition: all 0.3s ease-in-out;
+  transform: translateX(-50%);
+}
+
+.navbar-links a:hover::after,
+.navbar-links a.active-link::after { /* Az aktív linknek is legyen aláhúzása */
+  width: 100%;
+}
+
+.navbar-links a.active-link {
+  color: #c2185b; /* Az aktív link színe is pink */
   font-weight: bold;
+}
+
+
+.navbar-user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.navbar-logout-button {
+  background: none;
+  border: none;
+  color: #c2185b; /* Link szín */
+  cursor: pointer;
+  font-weight: 500;
+  padding: 10px 20px;
+  font-size: 1em; /* Hogy egyezzen a linkekkel */
+}
+
+.navbar-logout-button:hover {
+  text-decoration: underline;
+  color: #ad1457; /* Sötétebb pink hoverre */
 }

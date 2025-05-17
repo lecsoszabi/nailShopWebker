@@ -1,12 +1,21 @@
-<nav class="navbar">
-  <div class="logo">Nail Shop</div>
-  <div class="nav-links">
-    <button mat-flat-button routerLink="/home">Home</button>
-    <button mat-flat-button routerLink="/store">Store</button>
-    <button mat-flat-button routerLink="/cart">Cart</button>
-    <a
-      routerLink="/profile">
-      <mat-icon>account_circle</mat-icon>
-      <span>My Profile</span>
-    </a>  </div>
+<nav class="navbar-component"> <!-- Átneveztem az osztályt, hogy egyértelműbb legyen -->
+  <div class="navbar-logo-container">
+    <a routerLink="/" class="navbar-logo">NailShop</a>
+  </div>
+  <ul class="navbar-links">
+
+    <ng-container *ngIf="(currentUser$ | async) === null; else loggedIn">
+
+      <li><a routerLink="/login" routerLinkActive="active-link">Bejelentkezés</a></li>
+      <li><a routerLink="/register" routerLinkActive="active-link">Regisztráció</a></li>
+    </ng-container>
+    <ng-template #loggedIn>
+      <li><a routerLink="/store" routerLinkActive="active-link">Bolt</a></li>
+      <li><a routerLink="/cart" routerLinkActive="active-link">Kosár</a></li>
+      <li *ngIf="currentUser$ | async as user" class="navbar-user-info">
+        <a routerLink="/profile">Üdv, {{ user.email }}!</a>
+        <button (click)="logout()" class="navbar-logout-button">Kijelentkezés</button>
+      </li>
+    </ng-template>
+  </ul>
 </nav>
