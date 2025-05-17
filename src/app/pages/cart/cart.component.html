@@ -1,38 +1,67 @@
-<div class="page-container">
+<div class="page-container cart-page-container"> <!-- Egyedi osztály a kosár oldalnak, ha kell -->
   <h2 class="page-title">Kosarad tartalma</h2>
 
-  <div *ngIf="cartItems$ | async as items; else loadingCart">
-    <div *ngIf="items.length > 0; else emptyCart" class="cart-items-container">
-      <div *ngFor="let item of items" class="cart-item">
-        <img [src]="item.imageUrl || 'assets/images/placeholder-nail.png'" alt="{{ item.name }}" class="cart-item-image">
-        <div class="cart-item-details">
-          <h3 class="cart-item-name">{{ item.name }}</h3>
-          <p class="cart-item-price">{{ item.price | number:'1.0-0' }} Ft / db</p>
-        </div>
-        <div class="cart-item-quantity">
-          <button (click)="updateQuantity(item.productId, item.quantity - 1)" class="quantity-button" [disabled]="item.quantity <= 1">-</button>
-          <span>{{ item.quantity }}</span>
-          <button (click)="updateQuantity(item.productId, item.quantity + 1)" class="quantity-button">+</button>
-        </div>
-        <p class="cart-item-subtotal">{{ (item.price * item.quantity) | number:'1.0-0' }} Ft</p>
-        <button (click)="removeFromCart(item.productId)" class="remove-item-button">
-          <span aria-hidden="true">&times;</span> <!-- X ikon -->
-        </button>
-      </div>
+  <!-- Információs/hiba modális ablak -->
+  <app-info-modal *ngIf="showInfoModal"
+                  [title]="infoModalTitle"
+                  [message]="infoModalMessage"
+                  [messageType]="infoModalType"
+                  [showModal]="showInfoModal"
+                  (closeModalEvent)="closeInfoModal()">
+  </app-info-modal>
 
-      <div class="cart-summary">
-        <h3 class="summary-title">Összesítés</h3>
-        <p class="summary-total">Végösszeg: <strong>{{ calculateTotal(items) | number:'1.0-0' }} Ft</strong></p>
-        <button (click)="clearCart()" class="clear-cart-button">Kosár ürítése</button>
-        <button (click)="proceedToCheckout()" class="checkout-button button-primary">Tovább a fizetéshez</button>
-      </div>
-
-    </div>
-    <ng-template #emptyCart>
-      <p class="info-message">A kosarad jelenleg üres. <a routerLink="/store">Vásárolj valamit!</a></p>
-    </ng-template>
+  <div *ngIf="!isUserLoggedIn; else cartView">
+    <p class="info-message">A kosár tartalmának megtekintéséhez kérjük, <a routerLink="/login">jelentkezz be</a>.</p>
   </div>
-  <ng-template #loadingCart>
-    <p class="info-message">Kosár betöltése...</p>
+
+  <ng-template #cartView>
+    <div *ngIf="cartItems$ | async as items; else loadingCartTemplate">
+      <div *ngIf="items.length > 0; else emptyCartTemplate" class="cart-content-wrapper">
+        <div class="cart-items-list">
+          <div *ngFor="let item of items" class="cart-item-row">
+            <div class="cart-item-image-container">
+              <img [src]="item.imageUrl || placeholderProductImage" alt="{{ item.name }}" class="cart-item-image">
+            </div>
+            <div class="cart-item-details">
+              <h3 class="cart-item-name">{{ item.name }}</h3>
+              <p class="cart-item-price">{{ item.price | number:'1.0-0' }} Ft / db</p>
+            </div>
+            <div class="cart-item-quantity-controls">
+              <button (click)="updateQuantity(item.productId, item.quantity - 1)" class="quantity-button" [disabled]="item.quantity <= 0">-</button>
+              <input type="number" [value]="item.quantity" (change)="updateQuantity(item.productId, +$any($event.target).value)" class="quantity-input" min="0">
+              <button (click)="updateQuantity(item.productId, item.quantity + 1)" class="quantity-button">+</button>
+            </div>
+            <p class="cart-item-subtotal">{{ (item.price * item.quantity) | number:'1.0-0' }} Ft</p>
+            <button (click)="removeFromCart(item.productId)" class="remove-item-button" title="Törlés a kosárból">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="cart-summary-section">
+          <h3 class="summary-title">Összesítés</h3>
+          <div class="summary-line">
+            <span>Termékek összesen:</span>
+            <span>{{ calculateTotal(items) | number:'1.0-0' }} Ft</span>
+          </div>
+          <!-- Ide jöhetne a szállítási költség, kedvezmények stb. -->
+          <div class="summary-total-line">
+            <span>Végösszeg:</span>
+            <strong>{{ calculateTotal(items) | number:'1.0-0' }} Ft</strong>
+          </div>
+          <div class="cart-actions">
+            <button (click)="clearCart()" class="button-secondary clear-cart-btn">Kosár ürítése</button>
+            <button (click)="proceedToCheckout(items)" class="button-primary checkout-btn">Megrendelés</button>
+          </div>
+        </div>
+
+      </div>
+      <ng-template #emptyCartTemplate>
+        <p class="info-message">A kosarad jelenleg üres. <a routerLink="/store">Nézz körül a termékeink között!</a></p>
+      </ng-template>
+    </div>
+    <ng-template #loadingCartTemplate>
+      <p class="info-message">Kosár betöltése...</p>
+    </ng-template>
   </ng-template>
 </div>

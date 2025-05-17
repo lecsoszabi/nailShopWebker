@@ -1,153 +1,223 @@
-.page-container {
-  max-width: 900px;
-  margin: 30px auto;
+/* src/app/pages/cart/cart.component.css */
+.page-container.cart-page-container { /* Specifikusabb konténer a kosár oldalnak */
+  max-width: 1000px; /* Kicsit szélesebb lehet a kosár oldal */
+  margin: 20px auto;
   padding: 20px;
 }
 
 .page-title {
+  font-size: 2em;
+  font-weight: 600;
+  color: #333;
   margin-bottom: 30px;
-  border-bottom: 2px solid #e91e63;
-  padding-bottom: 10px;
-  display: inline-block;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
 }
 
-.cart-items-container {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-
-.cart-item {
+.cart-content-wrapper { /* Konténer a listának és az összesítőnek */
   display: flex;
+  flex-direction: column; /* Alapból egymás alatt mobilon */
+  gap: 30px;
+}
+
+@media (min-width: 768px) { /* Nagyobb képernyőn egymás mellett */
+  .cart-content-wrapper {
+    flex-direction: row;
+    align-items: flex-start; /* Hogy a rövidebb oszlop ne nyúljon meg */
+  }
+  .cart-items-list {
+    flex-grow: 1; /* A lista foglalja el a több helyet */
+  }
+  .cart-summary-section {
+    width: 300px; /* Fix szélesség az összesítőnek */
+    flex-shrink: 0; /* Ne zsugorodjon */
+    position: sticky; /* Opcionális: az összesítő maradjon látható görgetéskor */
+    top: 80px; /* A navbar magassága + némi térköz */
+  }
+}
+
+
+.cart-items-list {
+  background-color: #fff;
+  padding: 0px 20px 20px 20px; /* Csak alul és oldalt padding */
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.cart-item-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto auto; /* Kép, részletek, menny., ár, törlés */
   align-items: center;
-  padding: 15px 0;
+  gap: 15px;
+  padding: 20px 0;
   border-bottom: 1px solid #f0f0f0;
 }
 
-.cart-item:last-child {
+.cart-item-row:last-child {
   border-bottom: none;
 }
 
+.cart-item-image-container {
+  width: 90px; /* Kicsit nagyobb kép */
+  height: 90px;
+}
 .cart-item-image {
-  width: 80px;
-  height: 80px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 6px;
-  margin-right: 20px;
+  background-color: #f8f8f8; /* Háttér, amíg tölt a kép */
 }
 
 .cart-item-details {
-  flex-grow: 1;
+  /* flex-grow: 1; Már a grid kezeli */
 }
 
 .cart-item-name {
   font-size: 1.1em;
   font-weight: 600;
   margin: 0 0 5px 0;
-  color: #333;
+  color: #2c3e50;
 }
+.cart-item-name:hover {
+  color: #e91e63; /* Opcionális: link stílus, ha a névre kattintva a termék oldalára ugrik */
+}
+
 
 .cart-item-price {
   font-size: 0.9em;
-  color: #666;
+  color: #7f8c8d;
   margin: 0;
 }
 
-.cart-item-quantity {
+.cart-item-quantity-controls {
   display: flex;
   align-items: center;
-  margin: 0 20px;
-}
-
-.cart-item-quantity span {
-  padding: 0 15px;
-  font-size: 1.1em;
-  min-width: 30px; /* Hogy ne ugráljon a szám változásakor */
-  text-align: center;
+  justify-content: center; /* Középre igazítja a +/- gombokat és az inputot */
 }
 
 .quantity-button {
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  color: #555;
-  padding: 5px 10px;
+  background-color: #e9ecef; /* Világos szürke */
+  border: 1px solid #ced4da;
+  color: #495057;
+  padding: 6px 10px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1em;
   line-height: 1;
+  min-width: 30px; /* Fix szélesség */
 }
-
 .quantity-button:hover {
-  background-color: #e0e0e0;
+  background-color: #dee2e6;
+}
+.quantity-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.quantity-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.quantity-input {
+  width: 50px; /* Fix szélesség az inputnak */
+  text-align: center;
+  padding: 6px 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  margin: 0 5px; /* Térköz a gombok és az input között */
+  -moz-appearance: textfield; /* Eltávolítja a nyilakat Firefoxban */
+}
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button { /* Eltávolítja a nyilakat Chrome-ban, Safari-ban */
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 
 .cart-item-subtotal {
   font-weight: bold;
-  min-width: 100px; /* Hogy az ár ne törjön és egy vonalban legyen */
+  min-width: 90px;
   text-align: right;
-  margin-right: 20px;
+  font-size: 1.05em;
 }
 
 .remove-item-button {
   background: none;
   border: none;
-  color: #dc3545; /* Piros a törléshez */
-  font-size: 1.5em; /* Nagyobb X */
+  color: #c0392b; /* Sötétebb piros */
+  font-size: 1.6em;
   cursor: pointer;
   padding: 5px;
   line-height: 1;
+  transition: color 0.2s;
 }
-
 .remove-item-button:hover {
-  color: #a71d2a; /* Sötétebb piros hoverre */
+  color: #a93226; /* Még sötétebb */
 }
 
-.cart-summary {
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 2px solid #e91e63;
-  text-align: right;
+/* Kosár összesítő */
+.cart-summary-section {
+  background-color: #f9f9f9; /* Enyhén eltérő háttér */
+  padding: 25px;
+  border-radius: 8px;
+  border: 1px solid #eee;
 }
 
 .summary-title {
-  font-size: 1.3em;
+  font-size: 1.4em;
   font-weight: 600;
+  color: #333;
+  margin: 0 0 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.summary-line, .summary-total-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1em;
   margin-bottom: 10px;
-  text-align: left; /* Vagy right, ha jobban tetszik */
+  color: #555;
+}
+.summary-total-line {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px dashed #ccc;
+}
+.summary-total-line strong {
+  color: #e91e63; /* Pink végösszeg */
 }
 
-.summary-total {
-  font-size: 1.5em;
-  margin-bottom: 20px;
+.cart-actions {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column; /* Gombok egymás alatt */
+  gap: 10px;
 }
 
-.summary-total strong {
-  color: #e91e63;
-}
-
-.clear-cart-button {
-  background-color: #6c757d; /* Szürke */
+.clear-cart-btn {
+  /* A .button-secondary stílust örökölheti a src/styles.css-ből,
+     vagy itt definiálhatod (pl. szürke gomb) */
+  background-color: #6c757d;
   color: white;
   padding: 10px 15px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  margin-right: 10px;
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-.clear-cart-button:hover{
+.clear-cart-btn:hover {
   background-color: #5a6268;
 }
 
-.checkout-button { /* A .button-primary stílust használja */
-  padding: 12px 25px; /* Kicsit nagyobb gomb */
+.checkout-btn {
+  /* A .button-primary stílust örökölheti a src/styles.css-ből */
+  padding: 12px 20px;
+  font-size: 1.05em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .info-message {
@@ -158,4 +228,8 @@
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.info-message a { /* Link az üzenetben */
+  font-weight: 600;
 }
