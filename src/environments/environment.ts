@@ -11,6 +11,9 @@ export const environment = {
     messagingSenderId: "526806258935",
     appId: "1:526806258935:web:f444455b24551e46472ff2"
     // measurementId: "G-XXXXXXXXXX" // Ha használsz Google Analytics for Firebase-t
-  }
-  // Ide jöhetnek más környezetfüggő beállítások is
+  },
+
+
+  placeholderImageUrl: "assets/images/placeholder-nail.png",
+
 };

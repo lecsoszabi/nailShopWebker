@@ -1,0 +1,9 @@
+<dialog #infoDialog class="info-modal-dialog" (close)="confirmAndClose()">
+  <h3 class="modal-title" [ngClass]="titleClass">{{ title }}</h3>
+  <div class="modal-content" [ngClass]="messageClass">
+    <p>{{ message }}</p>
+  </div>
+  <div class="modal-actions">
+    <button (click)="confirmAndClose()" class="button-primary">OK</button>
+  </div>
+</dialog>

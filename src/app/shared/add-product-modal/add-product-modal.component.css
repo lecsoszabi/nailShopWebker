@@ -1,0 +1,93 @@
+/* Alap stílus a HTML dialog elemhez, hogy középen jelenjen meg és legyen egy háttér */
+dialog.product-modal {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: 500px; /* Maximális szélesség */
+  background-color: #fff;
+}
+
+/* Háttér a modális mögött (backdrop) */
+dialog.product-modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-title {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #c2185b; /* Pink */
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Térköz a form-group-ok között */
+}
+
+/* .form-group, .form-label, .form-control, .input-error, .error-message
+   stílusai a src/styles.css-ből öröklődnek, ha ott definiáltad őket.
+   Ha nem, akkor itt kell őket megadni, hasonlóan a login/register CSS-hez.
+   Például: */
+.form-group {
+  margin-bottom: 0; /* Mivel a flexbox gap kezeli a térközt */
+}
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.form-control:focus {
+  border-color: #e91e63;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.2);
+}
+.input-error {
+  border-color: red !important;
+}
+.error-message {
+  color: red;
+  font-size: 0.8em;
+  margin-top: 4px;
+}
+/* Eddig a példa CSS a form elemekhez, ha nincs globálisan */
+
+
+.modal-actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end; /* Gombok jobbra igazítása */
+  gap: 10px;
+}
+
+/* .button-primary és .button-secondary stílusokat a src/styles.css-ből örökölheti,
+   vagy itt kell definiálni. Tegyük fel, hogy a src/styles.css-ben van .button-primary.
+   A .button-secondary-t itt definiáljuk: */
+.button-secondary {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f0f0f0;
+  color: #333;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.button-secondary:hover {
+  background-color: #e0e0e0;
+}

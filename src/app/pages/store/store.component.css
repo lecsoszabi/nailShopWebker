@@ -1,74 +1,178 @@
-.page-container {
+/* src/app/pages/store/store.component.css */
+
+/* Általános konténer az oldalnak */
+.store-page-container {
   max-width: 1200px;
-  margin: 30px auto;
+  margin: 20px auto; /* Kisebb felső margó, ha a navbar már ad */
   padding: 20px;
+  box-sizing: border-box;
 }
 
-.page-title { /* H2 stílus a src/styles.css-ből öröklődik, itt felülírható ha kell */
+/* Fejléc a címmel és a gombbal */
+.store-header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 30px;
-  border-bottom: 2px solid #e91e63;
-  padding-bottom: 10px;
-  display: inline-block; /* Hogy a border-bottom csak a szöveg alatt legyen */
+  padding-bottom: 15px; /* Térköz az alsó vonalig */
+  border-bottom: 1px solid #eee; /* Finom elválasztó vonal */
 }
 
-.product-grid {
+.store-main-title {
+  font-size: 2.2em; /* Kicsit nagyobb címsor */
+  font-weight: 600; /* Kevésbé vastag, mint a h2 alapból */
+  color: #333; /* Sötétebb, semlegesebb szín */
+  margin: 0; /* Eltávolítjuk az alapértelmezett h2 margót */
+}
+
+.store-add-product-btn {
+  /* A .button-primary stílust örökölheti a src/styles.css-ből,
+     de itt felülírhatod vagy kiegészítheted.
+     Például, ha a globális .button-primary túl nagy ide: */
+  padding: 8px 16px;
+  font-size: 0.9em;
+}
+
+/* Terméklista szekció */
+.store-product-list-section {
+  /* Nincs szükség extra stílusra, ha a product-grid jól működik */
+}
+
+/* Termék rács */
+.store-product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Reszponzív rács */
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Kicsit szélesebb kártyák alapból */
+  gap: 30px; /* Nagyobb térköz */
 }
 
-.product-card {
+/* Termékkártya */
+.store-product-card {
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Hogy a kép ne lógjon ki a kerekített sarkoknál */
+  border-radius: 10px; /* Kerekítettebb sarkok */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); /* Finomabb árnyék */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+.store-product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
 }
 
-.product-image {
+/* Kép konténere (ha pl. aspect-ratio-t akarsz) */
+.store-product-image-wrapper {
   width: 100%;
-  height: 200px; /* Fix magasság, vagy aspect-ratio használata */
-  object-fit: cover; /* Hogy a kép kitöltse a helyét torzítás nélkül */
+  /* aspect-ratio: 4 / 3; /* Opcionális: fix képarány */
+  /* overflow: hidden; */ /* Ha az aspect-ratio miatt kell */
 }
 
-.product-info {
+.store-product-image {
+  width: 100%;
+  height: 220px; /* Kicsit magasabb kép */
+  display: block; /* Eltávolítja az esetleges alsó térközt */
+  object-fit: cover; /* Lefedi a területet, levághatja a kép széleit */
+  /* object-fit: contain; */ /* Megjeleníti a teljes képet, üres területek maradhatnak */
+  background-color: #f0f0f0; /* Háttérszín, amíg a kép töltődik vagy ha nincs kép */
+}
+
+/* Termék részletei a kártyán */
+.store-product-details {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Hogy a tartalom kitöltse a rendelkezésre álló helyet */
+  flex-grow: 1; /* Fontos, hogy a tartalom kitöltse a kártya magasságát */
 }
 
-.product-name {
-  font-size: 1.25em;
+.store-product-name {
+  font-size: 1.2em;
   font-weight: 600;
-  color: #333;
-  margin-top: 0;
-  margin-bottom: 10px;
-  min-height: 2.5em; /* Hogy a kártyák egyforma magasak legyenek, ha a név több soros */
+  color: #2c3e50; /* Sötétkék-szürke */
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+  /* Ha több soros nevet engedsz meg és egységes magasságot akarsz: */
+  /* min-height: calc(1.3em * 2); */ /* Két sornyi magasság */
+  /* overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; */ /* Vágás ...-tal */
 }
 
-.product-price {
-  font-size: 1.1em;
-  color: #e91e63;
-  font-weight: bold;
-  margin-bottom: 15px;
+.store-product-price {
+  font-size: 1.15em;
+  color: #e91e63; /* Pink */
+  font-weight: 700; /* Vastagabb ár */
+  margin: 0 0 12px 0;
 }
 
-.add-to-cart-button { /* A .button-primary stílust használja a src/styles.css-ből */
-  margin-top: auto; /* A gombot a kártya aljára tolja */
+.store-product-description {
+  font-size: 0.9em;
+  color: #7f8c8d; /* Világosabb szürke */
+  margin: 0 0 15px 0;
+  line-height: 1.5;
+  flex-grow: 1; /* Kitölti a helyet a gombok előtt */
+  /* Opcionális vágás, ha túl hosszú */
+  /* overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; */
+}
+
+/* Művelet gombok a kártyán */
+.store-product-actions {
+  margin-top: auto; /* A gombokat a kártya aljára igazítja */
+  display: flex;
+  flex-direction: column; /* Gombok egymás alatt */
+  gap: 10px; /* Térköz a gombok között */
+}
+
+.action-button {
   width: 100%;
+  padding: 12px 15px; /* Kényelmesebb gombok */
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  text-align: center;
+  font-size: 0.95em;
+  text-transform: uppercase; /* Opcionális: nagybetűs gombok */
+  letter-spacing: 0.5px;   /* Opcionális: kis betűköz */
 }
 
-.info-message {
+.action-button:hover {
+  transform: scale(1.02); /* Enyhe nagyítás hoverre */
+}
+
+.button-cart {
+  background-color: #e91e63;
+  color: white;
+}
+.button-cart:hover {
+  background-color: #c2185b;
+}
+.button-cart:disabled {
+  background-color: #f48fb1;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.button-edit {
+  background-color: #2980b9; /* Kék a módosításhoz */
+  color: white;
+}
+.button-edit:hover {
+  background-color: #2471a3;
+}
+
+.button-delete {
+  background-color: #c0392b; /* Sötétebb piros a törléshez */
+  color: white;
+}
+.button-delete:hover {
+  background-color: #a93226;
+}
+
+/* Üzenet, ha nincs termék vagy betöltés van */
+.store-info-message {
   text-align: center;
-  font-size: 1.1em;
-  color: #666;
-  margin-top: 40px;
+  font-size: 1.2em;
+  color: #7f8c8d;
+  margin-top: 50px;
+  padding: 20px;
 }

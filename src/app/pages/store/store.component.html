@@ -1,25 +1,72 @@
-<div class="page-container"> <!-- Általános konténer az oldalnak -->
-  <h2 class="page-title">Termékeink</h2> <!-- Általános címsor stílus -->
+<div class="store-page-container">
+  <!-- Oldal Fejléce és Új Termék Gomb -->
+  <div class="store-header-controls">
+    <h2 class="store-main-title">Termékeink</h2>
+    <button *ngIf="isUserLoggedIn" (click)="openAddProductModal()" class="button-primary store-add-product-btn">
+      Új termék hozzáadása
+    </button>
+  </div>
 
-  <div *ngIf="products$ | async as products; else loadingOrError">
-    <div *ngIf="products.length > 0; else noProducts" class="product-grid">
-      <div *ngFor="let product of products" class="product-card">
-        <img [src]="product.imageUrl || 'assets/images/placeholder-nail.png'" alt="{{ product.name }}" class="product-image">
-        <div class="product-info">
-          <h3 class="product-name">{{ product.name }}</h3>
-          <p class="product-price">{{ product.price | number:'1.0-0' }} Ft</p> <!-- Egyszerű árformázás, pipe-pal jobb lenne -->
-          <button (click)="addToCart(product)" class="add-to-cart-button button-primary">
-            Kosárba
-          </button>
+  <!-- Modális ablakok (a HTML struktúrában itt vannak, de a CSS pozícionálja őket) -->
+  <app-add-product-modal *ngIf="showAddProductModal"
+                         (closeModalEvent)="closeAddProductModal()"
+                         (productAddedEvent)="handleProductAdded($event)">
+  </app-add-product-modal>
+
+  <app-edit-product-modal *ngIf="showEditProductModal && productToEdit"
+                          [productToEdit]="productToEdit"
+                          [showModal]="showEditProductModal"
+                          (closeModalEvent)="closeEditProductModal()"
+                          (productUpdatedEvent)="handleProductUpdated($event)">
+  </app-edit-product-modal>
+
+  <app-info-modal *ngIf="showInfoModal"
+                  [title]="infoModalTitle"
+                  [message]="infoModalMessage"
+                  [messageType]="infoModalType"
+                  [showModal]="showInfoModal"
+                  (closeModalEvent)="closeInfoModal()">
+  </app-info-modal>
+
+  <!-- Terméklista Megjelenítése -->
+  <div class="store-product-list-section">
+    <div *ngIf="products$ | async as products; else loadingOrErrorTemplate">
+      <div *ngIf="products.length > 0; else noProductsTemplate" class="store-product-grid">
+        <!-- Ciklus a termékeken -->
+        <div *ngFor="let product of products" class="store-product-card">
+          <div class="store-product-image-wrapper">
+            <img [src]="product.imageUrl || placeholderProductImage"
+                 alt="{{ product.name }}"
+                 class="store-product-image"
+                 (error)="handleImageError($event)">
+          </div>
+          <div class="store-product-details">
+            <h3 class="store-product-name">{{ product.name }}</h3>
+            <p class="store-product-price">{{ product.price | number:'1.0-0' }} Ft</p>
+            <p *ngIf="product.description" class="store-product-description">{{ product.description }}</p>
+            <!-- Művelet Gombok -->
+            <div class="store-product-actions">
+              <button (click)="addToCart(product)" class="action-button button-cart"
+                      [disabled]="!isUserLoggedIn"
+                      title="{{ isUserLoggedIn ? 'Kosárba' : 'A kosárba helyezéshez jelentkezz be!' }}">
+                Kosárba
+              </button>
+              <ng-container *ngIf="currentUser && product.creatorUid === currentUser.uid">
+                <button (click)="openEditProductModal(product)" class="action-button button-edit">Módosítás</button>
+                <button (click)="deleteProduct(product.id, product.name, product.creatorUid)" class="action-button button-delete">Törlés</button>
+              </ng-container>
+            </div>
+          </div>
         </div>
       </div>
+      <!-- Ha nincsenek termékek -->
+      <ng-template #noProductsTemplate>
+        <p class="store-info-message">Jelenleg nincsenek elérhető termékek.</p>
+      </ng-template>
     </div>
-    <ng-template #noProducts>
-      <p class="info-message">Jelenleg nincsenek elérhető termékek.</p>
+    <!-- Betöltés vagy hiba esetén -->
+    <ng-template #loadingOrErrorTemplate>
+      <p class="store-info-message">Termékek betöltése...</p>
     </ng-template>
   </div>
-  <ng-template #loadingOrError>
-    <!-- Itt lehetne egy loading spinner vagy hibaüzenet, ha az Observable hibát dob vagy még tölt -->
-    <p class="info-message">Termékek betöltése...</p>
-  </ng-template>
 </div>
