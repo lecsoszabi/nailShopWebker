@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, User as FirebaseUser } from '@angular/fire/auth';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AppUser } from '../models/user.model';
+import {serverTimestamp} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class AuthService {
         const appUser: AppUser = {
           uid: firebaseUser.uid,
           email: firebaseUser.email,
-          displayName: firebaseUser.displayName
+          displayName: firebaseUser.displayName,
+          createdAt: serverTimestamp()
         };
         this.currentUserSubject.next(appUser);
       } else {

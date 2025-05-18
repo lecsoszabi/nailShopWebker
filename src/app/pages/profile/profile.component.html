@@ -1,4 +1,46 @@
-<div class="profile-container">
-  <h1>Your Profile</h1>
-  <p>Manage your account information and settings.</p>
+<div class="page-container profile-page-container">
+  <h2 class="page-title">Profilom</h2>
+
+  <div *ngIf="isLoading; else profileContent" class="loading-message">
+    <p>Adatok betöltése...</p>
+  </div>
+
+  <ng-template #profileContent>
+    <div *ngIf="currentUser; else notLoggedIn" class="profile-details-card">
+      <div class="profile-header">
+        <div class="profile-avatar-placeholder">
+          <!-- A `userInitial` gettert használjuk itt -->
+          <span>{{ userInitial }}</span>
+        </div>
+        <h3>{{ currentUser.displayName || currentUser.email }}</h3>
+      </div>
+
+      <div class="profile-info-section">
+        <h4>Fiók információk:</h4>
+        <p><strong>Email cím:</strong> {{ currentUser.email }}</p>
+        <p *ngIf="currentUser.createdAt">
+          <strong>Regisztráció dátuma:</strong>
+          <!-- Győződj meg róla, hogy a currentUser.createdAt egy Firestore Timestamp objektum,
+               ha közvetlenül a Firestore-ból jön, vagy már Date objektum, ha az AuthService konvertálta.
+               A `?.toDate()` biztonságos, ha Timestamp. -->
+          {{ currentUser.createdAt?.toDate ? (currentUser.createdAt.toDate() | date:'yyyy. MMMM dd., HH:mm') : (currentUser.createdAt | date:'yyyy. MMMM dd., HH:mm') }}
+        </p>
+        <p *ngIf="!currentUser.createdAt">Regisztráció dátuma nem elérhető.</p>
+      </div>
+
+      <div class="profile-stats-section">
+        <h4>Vásárlási statisztika:</h4>
+        <p><strong>Leadott rendelések száma:</strong> {{ ordersCount }}</p>
+        <!-- <a *ngIf="ordersCount > 0" routerLink="/my-orders" class="button-secondary">Rendeléseim megtekintése</a> -->
+      </div>
+
+      <div class="profile-actions">
+        <button (click)="logout()" class="button-primary logout-btn">Kijelentkezés</button>
+      </div>
+
+    </div>
+    <ng-template #notLoggedIn>
+      <p class="info-message">A profil megtekintéséhez kérjük, <a routerLink="/login">jelentkezz be</a>.</p>
+    </ng-template>
+  </ng-template>
 </div>

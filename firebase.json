@@ -1,4 +1,18 @@
 {
+  "hosting": {
+    "public": "dist/nail-shop/browser",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
   "firestore": {
     "database": "(default)",
     "rules": "firestore.rules",

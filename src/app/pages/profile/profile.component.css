@@ -1,12 +1,107 @@
-.profile-container {
+/* src/app/pages/profile/profile.component.css */
+.profile-page-container {
+  max-width: 700px; /* Keskenyebb konténer a profil oldalnak */
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.page-title { /* Ezt a stílust a src/styles.css-ből örökölheti */
   text-align: center;
-  padding: 50px;
+  margin-bottom: 30px;
+  color: #333;
 }
 
-.profile-container h1 {
-  font-size: 36px;
+.loading-message {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2em;
+  color: #777;
 }
 
-.profile-container p {
-  font-size: 18px;
+.profile-details-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.profile-avatar-placeholder {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #e91e63; /* Pink háttér */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5em;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.profile-header h3 {
+  margin: 0;
+  font-size: 1.6em;
+  color: #333;
+}
+
+.profile-info-section,
+.profile-stats-section {
+  margin-bottom: 25px;
+}
+
+.profile-info-section h4,
+.profile-stats-section h4 {
+  font-size: 1.1em;
+  color: #555;
+  border-bottom: 1px dashed #ccc;
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+}
+
+.profile-info-section p,
+.profile-stats-section p {
+  margin: 8px 0;
+  font-size: 1em;
+  color: #444;
+}
+
+.profile-info-section p strong,
+.profile-stats-section p strong {
+  color: #333;
+  min-width: 180px; /* Hogy a címkék egy vonalban legyenek */
+  display: inline-block;
+}
+
+.profile-actions {
+  margin-top: 30px;
+  text-align: center; /* Vagy right, ha úgy tetszik */
+}
+
+.logout-btn {
+  /* A .button-primary stílust örökölheti, de itt felülírható */
+  background-color: #7f8c8d; /* Szürke a kijelentkezéshez */
+  padding: 10px 25px;
+}
+.logout-btn:hover {
+  background-color: #6c757d;
+}
+
+.info-message { /* Ha nincs bejelentkezve */
+  text-align: center;
+  font-size: 1.1em;
+  color: #666;
+  padding: 20px;
+}
+.info-message a {
+  font-weight: 600;
 }

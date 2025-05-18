@@ -1,7 +1,20 @@
 <div class="home-container">
-  <h1>Üdv a Nail Shop-ban!</h1>
-  <p>Itt mindent megtalálsz a körömépítéshez.</p>
+  <div class="hero-content">
+    <h1>Üdv a Nail Shop-ban!</h1>
+    <p>Itt mindent megtalálsz a körömépítéshez és a tökéletes manikűrhöz.</p>
 
-  <a *ngIf="currentUser$ | async as user" routerLink="/store" class="shop-now">Fedezd fel a termékeinket!</a>
-  <a *ngIf="(currentUser$ | async) === null; " routerLink="/login" class="shop-now">Jelentkezz be!</a>
+
+    <a *ngIf="isUserLoggedIn; else showLoginButton"
+       routerLink="/store"
+       class="cta-button">
+      Fedezd fel termékeinket!
+    </a>
+
+
+    <ng-template #showLoginButton>
+      <a routerLink="/login" class="cta-button">
+        Bejelentkezés / Regisztráció
+      </a>
+    </ng-template>
+  </div>
 </div>

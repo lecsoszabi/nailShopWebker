@@ -6,7 +6,8 @@ import { CartItem } from '../../models/cart-item.model';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service'; // AuthService importálása
 import { InfoModalComponent } from '../../shared/info-modal/info-modal.component'; // InfoModal importálása
-import { environment } from '../../../environments/environment'; // Placeholder képhez
+import { environment } from '../../../environments/environment';
+import {OrderService} from '../../services/order.service'; // Placeholder képhez
 
 @Component({
   selector: 'app-cart',
@@ -30,7 +31,9 @@ export class CartComponent implements OnInit, OnDestroy {
 
   constructor(
     private cartService: CartService,
-    private authService: AuthService, // AuthService injektálása
+    private authService: AuthService,
+    private orderService: OrderService,
+    // AuthService injektálása
     private router: Router // Router injektálása
   ) {}
 
@@ -58,6 +61,7 @@ export class CartComponent implements OnInit, OnDestroy {
       this.authSubscription.unsubscribe();
     }
   }
+
 
   async updateQuantity(productId: string, newQuantity: number): Promise<void> {
     if (!this.isUserLoggedIn) {
@@ -106,24 +110,33 @@ export class CartComponent implements OnInit, OnDestroy {
       }
   }
 
-  proceedToCheckout(items: CartItem[] | null): void {
+  async proceedToCheckout(items: CartItem[] | null): Promise<void> { // Async lett
     if (!this.isUserLoggedIn) {
       this.displayInfoModal('Figyelmeztetés', 'A rendeléshez bejelentkezés szükséges.', 'warning');
-      this.router.navigate(['/login']); // Átirányítás a login oldalra
+      this.router.navigate(['/login']);
       return;
     }
     if (!items || items.length === 0) {
       this.displayInfoModal('Információ', 'A kosarad üres, nincs mit megrendelni.', 'info');
       return;
     }
-    // Ide jön a tényleges rendelési logika (pl. OrderService hívása, átirányítás fizetési oldalra)
-    // Most csak egy üzenetet jelenítünk meg.
-    console.log('Rendelési folyamat indítása:', items);
-    this.displayInfoModal('Információ', 'Rendelés leadva! (Ez a funkció még fejlesztés alatt.)', 'info');
-    // Sikeres rendelés után a kosarat üríthetjük:
-    // this.cartService.clearCart();
-    // És átirányíthatunk egy "köszönő" oldalra vagy a rendeléseim oldalra
-    // this.router.navigate(['/orders']);
+
+    const totalAmount = this.calculateTotal(items);
+
+    try {
+      const orderId = await this.orderService.createOrder(items, totalAmount);
+      if (orderId) {
+        await this.cartService.clearCart(); // Kosár ürítése sikeres rendelés után
+        this.displayInfoModal('Siker', `Rendelésed sikeresen rögzítettük (ID: ${orderId}). Köszönjük a vásárlást!`, 'success');
+        // Opcionálisan átirányítás egy "köszönő" oldalra vagy a rendeléseim oldalra
+        this.router.navigate(['/profile']); // Példa: profil oldalra navigálás
+      } else {
+        this.displayInfoModal('Hiba', 'Nem sikerült létrehozni a rendelést.', 'error');
+      }
+    } catch (error: any) {
+      console.error('Hiba a rendelés feldolgozása során:', error);
+      this.displayInfoModal('Hiba', error.message || 'Hiba történt a rendelés feldolgozása során.', 'error');
+    }
   }
 
   // --- Info Modal Helper ---

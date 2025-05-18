@@ -1,28 +1,31 @@
-import { Component } from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
-import {AsyncPipe, NgIf} from '@angular/common';
-import {AuthService} from '../../services/auth.service';
-import {Observable} from 'rxjs';
-import {AppUser} from '../../models/user.model';
-import {loggedIn} from '@angular/fire/auth-guard';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth.service'; // Feltételezve, hogy van AuthService
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  imports: [
-    RouterLink,
-    AsyncPipe,
-    NgIf
-  ],
+  standalone: true,
+  imports: [CommonModule, RouterLink],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
-  currentUser$: Observable<AppUser | null>;
+export class HomeComponent implements OnInit, OnDestroy {
+  isUserLoggedIn: boolean = false;
+  private authSubscription!: Subscription;
 
-  constructor(private authService: AuthService, private router: Router) {
-    this.currentUser$ = this.authService.currentUser$;
-    this.router = router;
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authSubscription = this.authService.currentUser$.subscribe(user => {
+      this.isUserLoggedIn = !!user;
+    });
   }
 
-  protected readonly loggedIn = loggedIn;
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
 }
