@@ -1,5 +1,5 @@
 <div class="store-page-container">
-  <!-- Oldal Fejléce és Új Termék Gomb -->
+  <!-- Oldal Fejléce és Új Termék Gomb ( változatlan ) -->
   <div class="store-header-controls">
     <h2 class="store-main-title">Termékeink</h2>
     <button *ngIf="isUserLoggedIn" (click)="openAddProductModal()" class="button-primary store-add-product-btn">
@@ -7,7 +7,7 @@
     </button>
   </div>
 
-  <!-- Modális ablakok (a HTML struktúrában itt vannak, de a CSS pozícionálja őket) -->
+  <!-- Modális ablakok ( változatlan ) -->
   <app-add-product-modal *ngIf="showAddProductModal"
                          (closeModalEvent)="closeAddProductModal()"
                          (productAddedEvent)="handleProductAdded($event)">
@@ -43,8 +43,34 @@
           <div class="store-product-details">
             <h3 class="store-product-name">{{ product.name }}</h3>
             <p class="store-product-price">{{ product.price | number:'1.0-0' }} Ft</p>
-            <p *ngIf="product.description" class="store-product-description">{{ product.description }}</p>
-            <!-- Művelet Gombok -->
+
+            <!-- ÚJ MEZŐK MEGJELENÍTÉSE -->
+            <p *ngIf="product.description" class="store-product-description">
+              <strong>Leírás:</strong> {{ product.description }}
+            </p>
+            <p *ngIf="product.color" class="store-product-property">
+              <strong>Szín:</strong> {{ product.color }}
+            </p>
+            <p *ngIf="product.length !== null && product.length !== undefined" class="store-product-property">
+              <!-- A length lehet 0, ezért expliciten null/undefined-ra ellenőrzünk -->
+              <strong>Hossz:</strong> {{ product.length }} {{ product.length ? 'mm' : '' }} <!-- Opcionális mértékegység -->
+            </p>
+            <p *ngIf="product.stock !== null && product.stock !== undefined" class="store-product-property">
+              <strong>Készlet:</strong> {{ product.stock }} db
+            </p>
+            <p *ngIf="product.createdAt" class="store-product-timestamp">
+              <strong>Létrehozva:</strong> {{ product.createdAt?.toDate ? (product.createdAt.toDate() | date:'yyyy.MM.dd. HH:mm') : (product.createdAt | date:'yyyy.MM.dd. HH:mm') }}
+            </p>
+            <p *ngIf="product.updatedAt" class="store-product-timestamp">
+              <strong>Frissítve:</strong> {{ product.updatedAt?.toDate ? (product.updatedAt.toDate() | date:'yyyy.MM.dd. HH:mm') : (product.updatedAt | date:'yyyy.MM.dd. HH:mm') }}
+            </p>
+            <!-- A creatorUid-t általában nem jelenítjük meg a felhasználónak, de ha szükséges: -->
+            <!--
+            <p *ngIf="product.creatorUid" class="store-product-property">
+              <strong>Létrehozó ID:</strong> {{ product.creatorUid }}
+            </p>
+            -->
+            <!-- Művelet Gombok ( változatlan ) -->
             <div class="store-product-actions">
               <button (click)="addToCart(product)" class="action-button button-cart"
                       [disabled]="!isUserLoggedIn"
@@ -59,12 +85,12 @@
           </div>
         </div>
       </div>
-      <!-- Ha nincsenek termékek -->
+      <!-- Ha nincsenek termékek ( változatlan ) -->
       <ng-template #noProductsTemplate>
         <p class="store-info-message">Jelenleg nincsenek elérhető termékek.</p>
       </ng-template>
     </div>
-    <!-- Betöltés vagy hiba esetén -->
+    <!-- Betöltés vagy hiba esetén ( változatlan ) -->
     <ng-template #loadingOrErrorTemplate>
       <p class="store-info-message">Termékek betöltése...</p>
     </ng-template>

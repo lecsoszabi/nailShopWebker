@@ -176,3 +176,74 @@
   margin-top: 50px;
   padding: 20px;
 }
+
+.store-product-details {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.store-product-name {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.store-product-price {
+  font-size: 1.15em;
+  color: #e91e63;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+}
+
+/* Stílus az általános terméktulajdonságokhoz */
+.store-product-property,
+.store-product-timestamp,
+.store-product-description { /* A leírást is ide vettem a konzisztencia kedvéért */
+  font-size: 0.9em;
+  color: #555;
+  margin: 4px 0; /* Kisebb térköz a sűrűbb listához */
+  line-height: 1.4;
+}
+
+.store-product-property strong,
+.store-product-timestamp strong,
+.store-product-description strong {
+  color: #333;
+  margin-right: 5px; /* Kis térköz a címke és az érték között */
+}
+
+/* Kiemelten a leírás, ha hosszabb lehet */
+.store-product-description {
+  margin-bottom: 10px; /* Nagyobb térköz a leírás után */
+  color: #7f8c8d; /* Világosabb szürke, mint a többi property */
+}
+
+/* Időbélyegek stílusa */
+.store-product-timestamp {
+  font-size: 0.8em;
+  color: #888;
+  font-style: italic;
+}
+
+/* Művelet gombok ( változatlan ) */
+.store-product-actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ... (a .action-button, .button-cart, .button-edit, .button-delete stílusai változatlanok) ... */
+
+.store-info-message {
+  text-align: center;
+  font-size: 1.2em;
+  color: #7f8c8d;
+  margin-top: 50px;
+  padding: 20px;
+}
+
